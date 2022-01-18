@@ -1,0 +1,8 @@
+[
+  { "id": 1, "name": "JavaScript", "slug": "javascript" },
+  { "id": 2, "name": "Python", "slug": "python" },
+  { "id": 3, "name": "Java", "slug": "java" },
+  { "id": 4, "name": "C++", "slug": "cpp" },
+  { "id": 3, "name": "PHP", "slug": "php" },
+  { "id": 4, "name": "Ruby", "slug": "ruby" }
+]
