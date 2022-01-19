@@ -13,7 +13,7 @@
   </router-link>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 
 import { PhPlayCircle } from "phosphor-vue";

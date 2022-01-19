@@ -36,9 +36,7 @@
             <router-link to="/register" class="nav-link btn fill">S'inscrire</router-link>
           </div>
 
-          <div v-if="$store.getters['auth/isAuthenticated']" class="nav-links-group">
-            <button class="nav-link btn" @click="logout">Se déconnecter</button>
-          </div>
+          <UserMenu v-if="$store.getters['auth/isAuthenticated']" />
         </div>
       </nav>
     </div>
@@ -49,11 +47,14 @@
 import { defineComponent } from "vue";
 import { PhHeart, PhShoppingCart, PhMagnifyingGlass } from "phosphor-vue";
 
+import UserMenu from "@/components/navbar/UserMenu.vue";
+
 export default defineComponent({
   components: {
     PhHeart,
     PhShoppingCart,
     PhMagnifyingGlass,
+    UserMenu,
   },
   methods: {
     toggleSearchFocus() {
@@ -62,10 +63,6 @@ export default defineComponent({
 
       if (isFocused) searchNode?.classList.remove("focused");
       else searchNode?.classList.add("focused");
-    },
-    logout() {
-      this.$store.dispatch("auth/logout");
-      this.$router.push("/");
     },
   },
 });

@@ -6,7 +6,7 @@
   </LayoutDefault>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 
 import { LayoutDefault } from "@/layouts";

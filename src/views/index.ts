@@ -3,5 +3,6 @@ import Register from "./Register.vue";
 import Login from "./Login.vue";
 import Courses from "./Courses.vue";
 import MyCourses from "./MyCourses.vue";
+import CourseCreate from "./CourseCreate.vue";
 
-export { Home, Register, Login, Courses, MyCourses };
+export { Home, Register, Login, Courses, MyCourses, CourseCreate };

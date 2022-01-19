@@ -20,12 +20,15 @@ form {
       margin-bottom: 5px;
     }
 
-    input {
+    input,
+    textarea {
       padding: 12px 10px;
       border-radius: var(--border-radius);
       border: 2px solid var(--color-black);
       background-color: var(--color-white);
       color: var(--color-black);
+      font-family: inherit;
+      font-size: inherit;
 
       &:focus {
         border-color: var(--color-blue);
