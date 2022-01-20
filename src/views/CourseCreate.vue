@@ -11,7 +11,7 @@ import { defineComponent } from "vue";
 
 import { LayoutTopSpace } from "@/layouts";
 
-import CreateCourseForm from "@/components/teacher/CreateCourseForm.vue";
+import CreateCourseForm from "@/components/teacher/create/CreateCourseForm.vue";
 
 export default defineComponent({
   components: { LayoutTopSpace, CreateCourseForm },
