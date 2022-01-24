@@ -2,11 +2,11 @@
   <span class="file-title">Fichier {{ id + 1 }}</span>
 
   <div class="file-control">
-    <input type="file" id="title-1" name="title-1" />
+    <input type="file" :id="`title-${id}`" :name="`title-${id}`" :ref="file" @change="onChange" />
   </div>
   <div class="form-control">
-    <label :for="`description-fichier-${id}`">Description du fichier</label>
-    <textarea type="text" :id="`description-fichier-${id}`" :name="`description-fichier-${id}`" />
+    <label :for="`description-file-${id}`">Description du fichier</label>
+    <textarea type="text" :id="`description-file-${id}`" :name="`description-file-${id}`" v-model="description" />
   </div>
 
   <button type="button" @click="() => remove(id)" class="remove-btn">
@@ -24,6 +24,17 @@ export default defineComponent({
     remove: Function,
   },
   components: { PhTrash },
+  data() {
+    return {
+      file: undefined as File | undefined,
+      description: "",
+    };
+  },
+  methods: {
+    onChange(e: Event) {
+      this.file = (e.target as HTMLInputElement).files?.[0];
+    },
+  },
 });
 </script>
 

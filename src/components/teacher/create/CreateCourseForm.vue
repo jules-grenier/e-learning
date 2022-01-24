@@ -7,11 +7,11 @@
       <div class="form-group column">
         <div class="form-control">
           <label for="title">Nom de la formation</label>
-          <input type="text" id="title" name="title" />
+          <input type="text" id="title" name="title" v-model="courseTitle" />
         </div>
         <div class="form-control">
           <label for="description">Description de la formation</label>
-          <textarea id="description" name="description" />
+          <textarea id="description" name="description" v-model="courseDescription" />
         </div>
       </div>
     </fieldset>
@@ -24,7 +24,7 @@
 
       <div class="files-list">
         <div v-for="(fileField, index) in fileFields" :key="index" class="file-field">
-          <FileField :id="index" :remove="removeFileField" />
+          <FileField :ref="`file-${index}`" :id="index" :remove="removeFileField" />
         </div>
       </div>
 
@@ -41,6 +41,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { PhPlus } from "phosphor-vue";
+import axios from "axios";
 
 import FileField from "./FileField.vue";
 
@@ -49,11 +50,40 @@ export default defineComponent({
   data() {
     return {
       fileFields: [FileField],
+      courseTitle: "",
+      courseDescription: "",
     };
   },
   methods: {
     onSubmit(): void {
-      console.log("form submitted");
+      const formData = new FormData();
+
+      formData.append("courseTitle", this.courseTitle);
+      formData.append("courseDescription", this.courseDescription);
+
+      const files = this.fileFields.map((fileField, index): { file: File; description: string } => {
+        const fileId = `file-${index}`;
+        const refFileField = (this.$refs[fileId] as typeof FileField)[0];
+        const { description, file } = refFileField;
+
+        return {
+          file,
+          description,
+        };
+      });
+
+      formData.append("files", JSON.stringify(files));
+
+      try {
+        axios.post("http://localhost:8090/courses/create", formData, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters["auth/token"]}`,
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      } catch (error) {
+        console.error("Failed to upload course.", error);
+      }
     },
     addFileField(): void {
       this.fileFields.push(FileField);
