@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="course.link" class="course-card" :class="type">
+  <router-link :to="`/courses?c=${course.id}`" class="course-card" :class="type">
     <div class="course-image">
       <img :src="image" :alt="course.title" />
       <div v-if="type === 'ongoing'" class="overlay">
@@ -22,7 +22,10 @@ export default defineComponent({
   components: { PhPlayCircle },
   props: ["type", "course"],
   data() {
-    const { images } = this.course;
+    const images = {
+      thumbnail: "https://via.placeholder.com/130x130",
+      medium: "https://via.placeholder.com/400x200",
+    };
 
     return {
       detailed: this.type === "ongoing" ? "ongoing" : "showcase",

@@ -1,0 +1,15 @@
+export interface Course {
+  id: string;
+  title: string;
+  description: string;
+  author_name: string;
+  author_id: string;
+  created_at: string;
+  updated_at: string;
+  content: {
+    id: string;
+    description: string;
+    type: string;
+    location: string;
+  };
+}

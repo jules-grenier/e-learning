@@ -1,6 +1,7 @@
-import { AuthState } from "vue";
+import { AuthState, CoursesState } from "vue";
 import { Store as VuexStore, ActionContext } from "vuex";
 import { User, UserLogin, UserRegistration } from "./user";
+import { Course } from "./courses";
 
 declare module "@vue/runtime-core" {
   export interface AuthState {
@@ -13,11 +14,16 @@ declare module "@vue/runtime-core" {
     error: string;
     isAuthenticated: boolean;
   }
+  export interface CoursesState {
+    items: Course[];
+    error: string;
+  }
 
   export type AuthCredentials = Omit<AuthState, "error">;
 
   interface State {
     auth: AuthState;
+    courses: CoursesState;
   }
 
   // provide typings for `this.$store`
@@ -68,4 +74,46 @@ export type Store<S = AuthState> = Omit<VuexStore<S>, "commit" | "getters" | "di
     payload: Parameters<AuthActions[K]>[1],
     options?: DispatchOptions
   ): ReturnType<AuthActions[K]>;
+};
+
+// Courses module typings
+
+export type CoursesGetters = {
+  list(state: CoursesState): Course[];
+  error(state: CoursesState): string;
+};
+
+export type CoursesMutations = {
+  setCourses(state: CourseState, payload: Course[]): void;
+  setError(state: CourseState, payload: string): void;
+};
+
+type CoursesAugmentedActionContext = {
+  commit<K extends keyof CoursesMutations>(
+    key: K,
+    payload: Parameters<CoursesMutations[K]>[1]
+  ): ReturnType<CoursesMutations[K]>;
+} & Omit<ActionContext<State, unknown>, "commit">;
+
+export interface CoursesActions {
+  fetchCourses(context: CoursesAugmentedActionContext): Promise<Course[] | undefined>;
+  getCourse(context: CoursesAugmentedActionContext, courseId: string): Course | undefined;
+}
+
+export type Store<S = CoursesState> = Omit<VuexStore<S>, "commit" | "getters" | "dispatch"> & {
+  commit<K extends keyof CoursesMutations, P extends Parameters<CoursesMutations[K]>[1]>(
+    key: K,
+    payload: P,
+    options?: CommitOptions
+  ): ReturnType<CoursesMutations[K]>;
+} & {
+  getters: {
+    [K in keyof CoursesGetters]: ReturnType<CoursesGetters[K]>;
+  };
+} & {
+  dispatch<K extends keyof CoursesActions>(
+    key: K,
+    payload: Parameters<CoursesActions[K]>[1],
+    options?: DispatchOptions
+  ): ReturnType<CoursesActions[K]>;
 };

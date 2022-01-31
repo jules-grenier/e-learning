@@ -21,16 +21,21 @@ import "swiper/components/navigation/navigation.scss";
 
 import CourseCard from "@/components/CourseCard.vue";
 
-import courses from "@/data/courses.json";
-
 SwiperCore.use([Navigation]);
 
 export default defineComponent({
   components: { Swiper, SwiperSlide, CourseCard },
   data() {
     return {
-      suggestedCourses: courses,
+      suggestedCourses: [],
     };
+  },
+  async mounted() {
+    await this.$store.dispatch("courses/fetchCourses");
+
+    this.$nextTick(() => {
+      this.suggestedCourses = this.$store.getters["courses/list"];
+    });
   },
   computed: {
     slidesPerView(): number {

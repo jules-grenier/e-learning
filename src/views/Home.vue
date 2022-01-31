@@ -1,7 +1,7 @@
 <template>
   <LayoutDefault>
     <Carousel />
-    <OngoingCourses />
+    <OngoingCourses v-if="$store.getters['auth/isAuthenticated']" />
     <CoursesSuggestions />
   </LayoutDefault>
 </template>
