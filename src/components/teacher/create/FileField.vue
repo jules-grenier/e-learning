@@ -28,6 +28,7 @@ export default defineComponent({
     return {
       file: undefined as File | undefined,
       description: "",
+      type: "video",
     };
   },
   methods: {

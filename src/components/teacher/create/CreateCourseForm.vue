@@ -57,28 +57,27 @@ export default defineComponent({
   methods: {
     onSubmit(): void {
       const formData = new FormData();
+      const contentDetails: { description: string; type: string }[] = [];
 
-      formData.append("courseTitle", this.courseTitle);
-      formData.append("courseDescription", this.courseDescription);
+      formData.append("course_title", this.courseTitle);
+      formData.append("course_description", this.courseDescription);
 
-      const files = this.fileFields.map((fileField, index): { file: File; description: string } => {
+      this.fileFields.forEach((fileField, index) => {
         const fileId = `file-${index}`;
         const refFileField = (this.$refs[fileId] as typeof FileField)[0];
-        const { description, file } = refFileField;
+        const { description, file, type } = refFileField;
 
-        return {
-          file,
-          description,
-        };
+        contentDetails.push({ description, type });
+        formData.append("content", file);
       });
 
-      formData.append("files", JSON.stringify(files));
+      formData.append("content_details", JSON.stringify(contentDetails));
 
       try {
         axios.post("http://localhost:8090/courses/create", formData, {
           headers: {
             Authorization: `Bearer ${this.$store.getters["auth/token"]}`,
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data; boundary='&--'",
           },
         });
       } catch (error) {
