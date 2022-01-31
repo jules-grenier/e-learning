@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import { Home, Register, Login, Courses, MyCourses, CourseCreate } from "@/views";
+import { Home, Register, Login, Courses, MyCourses, CourseCreate, Course } from "@/views";
 
 const routes = [
   {
@@ -22,6 +22,11 @@ const routes = [
     name: "Courses",
     path: "/courses",
     component: Courses,
+  },
+  {
+    name: "Course",
+    path: "/courses/:id",
+    component: Course,
   },
   {
     name: "MyCourses",

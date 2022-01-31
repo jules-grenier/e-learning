@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="`/courses?c=${course.id}`" class="course-card" :class="type">
+  <router-link :to="`/courses/${course.id}`" class="course-card" :class="type">
     <div class="course-image">
       <img :src="image" :alt="course.title" />
       <div v-if="type === 'ongoing'" class="overlay">

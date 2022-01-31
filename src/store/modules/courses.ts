@@ -46,7 +46,9 @@ const actions: ActionTree<CoursesState, unknown> & CoursesActions = {
     return courses;
   },
   getCourse(context, courseId) {
-    return context.state.items.find((course: Course) => course.id === courseId);
+    const course = context.state.items.find((course: Course) => course.id === courseId);
+    console.log("course store", course);
+    return course;
   },
 };
 
