@@ -14,6 +14,7 @@ declare module "@vue/runtime-core" {
     error: string;
     isAuthenticated: boolean;
   }
+
   export interface CoursesState {
     items: Course[];
     error: string;
@@ -58,7 +59,7 @@ export interface AuthActions {
   logout(context: AuthAugmentedActionContext, payload: undefined): void;
 }
 
-export type Store<S = AuthState> = Omit<VuexStore<S>, "commit" | "getters" | "dispatch"> & {
+export type AuthStore<S = AuthState> = Omit<VuexStore<S>, "commit" | "getters" | "dispatch"> & {
   commit<K extends keyof AuthMutations, P extends Parameters<AuthMutations[K]>[1]>(
     key: K,
     payload: P,
@@ -84,8 +85,8 @@ export type CoursesGetters = {
 };
 
 export type CoursesMutations = {
-  setCourses(state: CourseState, payload: Course[]): void;
-  setError(state: CourseState, payload: string): void;
+  setCourses(state: CoursesState, payload: Course[]): void;
+  setError(state: CoursesState, payload: string): void;
 };
 
 type CoursesAugmentedActionContext = {
@@ -100,7 +101,7 @@ export interface CoursesActions {
   getCourse(context: CoursesAugmentedActionContext, courseId: string): Course | undefined;
 }
 
-export type Store<S = CoursesState> = Omit<VuexStore<S>, "commit" | "getters" | "dispatch"> & {
+export type CoursesStore<S = CoursesState> = Omit<VuexStore<S>, "commit" | "getters" | "dispatch"> & {
   commit<K extends keyof CoursesMutations, P extends Parameters<CoursesMutations[K]>[1]>(
     key: K,
     payload: P,
