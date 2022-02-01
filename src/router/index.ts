@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import { Home, Register, Login, Courses, MyCourses, CourseCreate, Course } from "@/views";
+import { Home, Register, Login, Courses, MyCourses, CourseCreate, Course, Cart } from "@/views";
 
 const routes = [
   {
@@ -37,6 +37,11 @@ const routes = [
     name: "CreateCourse",
     path: "/teacher/create",
     component: CourseCreate,
+  },
+  {
+    name: "Cart",
+    path: "/cart",
+    component: Cart,
   },
 ];
 

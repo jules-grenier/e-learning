@@ -27,9 +27,8 @@
           <router-link to="/favorites" class="nav-link">
             <ph-heart :size="24" fill="regular" class="icon" />
           </router-link>
-          <router-link to="/cart" class="nav-link">
-            <ph-shopping-cart :size="24" fill="regular" class="icon" />
-          </router-link>
+
+          <CartMenu />
 
           <div v-if="!$store.getters['auth/isAuthenticated']" class="nav-links-group">
             <router-link to="/login" class="nav-link btn">Se connecter</router-link>
@@ -45,16 +44,17 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { PhHeart, PhShoppingCart, PhMagnifyingGlass } from "phosphor-vue";
+import { PhHeart, PhMagnifyingGlass } from "phosphor-vue";
 
 import UserMenu from "@/components/navbar/UserMenu.vue";
+import CartMenu from "@/components/navbar/CartMenu.vue";
 
 export default defineComponent({
   components: {
     PhHeart,
-    PhShoppingCart,
     PhMagnifyingGlass,
     UserMenu,
+    CartMenu,
   },
   methods: {
     toggleSearchFocus() {
@@ -82,20 +82,23 @@ export default defineComponent({
   padding-top: 10px;
   padding-bottom: 10px;
 
-  a {
+  a,
+  &:deep(.nav-link) {
     color: inherit;
     text-decoration: none;
   }
 
   .brand,
-  .nav-link {
+  .nav-link,
+  &:deep(.nav-link) {
     display: inline-flex;
     align-items: center;
     padding-top: 10px;
     padding-bottom: 10px;
   }
 
-  .nav-links {
+  .nav-links,
+  &:deep(.nav-link) {
     display: flex;
     flex-direction: row;
     gap: 15px;
@@ -107,7 +110,8 @@ export default defineComponent({
     gap: 5px;
   }
 
-  .nav-link {
+  .nav-link,
+  &:deep(.nav-link) {
     font-weight: 600;
 
     &:not(.btn) {

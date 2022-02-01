@@ -2,6 +2,7 @@ import { AuthState, CoursesState } from "vue";
 import { Store as VuexStore, ActionContext } from "vuex";
 import { User, UserLogin, UserRegistration } from "./user";
 import { Course } from "./courses";
+import { CartItem } from "./cart";
 
 declare module "@vue/runtime-core" {
   export interface AuthState {
@@ -20,11 +21,17 @@ declare module "@vue/runtime-core" {
     error: string;
   }
 
+  export interface CartState {
+    items: CartItem[];
+    error: string;
+  }
+
   export type AuthCredentials = Omit<AuthState, "error">;
 
   interface State {
     auth: AuthState;
     courses: CoursesState;
+    cart: CartState;
   }
 
   // provide typings for `this.$store`
@@ -117,4 +124,46 @@ export type CoursesStore<S = CoursesState> = Omit<VuexStore<S>, "commit" | "gett
     payload: Parameters<CoursesActions[K]>[1],
     options?: DispatchOptions
   ): ReturnType<CoursesActions[K]>;
+};
+
+// Cart module typings
+
+export type CartGetters = {
+  list(state: CartState): CartItem[];
+  length(state: CartState): number;
+  error(state: CartState): string;
+};
+
+export type CartMutations = {
+  setItem(state: CartState, payload: CartItem): void;
+  deleteItem(state: CartState, payload: CartItem): void;
+  setError(state: CartState, payload: string): void;
+};
+
+type CartAugmentedActionContext = {
+  commit<K extends keyof CartMutations>(key: K, payload: Parameters<CartMutations[K]>[1]): ReturnType<CartMutations[K]>;
+} & Omit<ActionContext<State, unknown>, "commit">;
+
+export interface CartActions {
+  add(context: CartAugmentedActionContext, item: CartItem): void;
+  remove(context: CartAugmentedActionContext, item: CartItem): void;
+  isInCart(context: CartAugmentedActionContext, item: Course): boolean;
+}
+
+export type CartStore<S = CartState> = Omit<VuexStore<S>, "commit" | "getters" | "dispatch"> & {
+  commit<K extends keyof CartMutations, P extends Parameters<CartMutations[K]>[1]>(
+    key: K,
+    payload: P,
+    options?: CommitOptions
+  ): ReturnType<CartMutations[K]>;
+} & {
+  getters: {
+    [K in keyof CartGetters]: ReturnType<CartGetters[K]>;
+  };
+} & {
+  dispatch<K extends keyof CartActions>(
+    key: K,
+    payload: Parameters<CartActions[K]>[1],
+    options?: DispatchOptions
+  ): ReturnType<CartActions[K]>;
 };

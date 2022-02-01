@@ -26,6 +26,11 @@ export default defineComponent({
       await store.dispatch("auth/retrieveProfile", token);
     })();
   },
+  watch: {
+    $route() {
+      this.$store.dispatch("cart/set");
+    },
+  },
 });
 </script>
 

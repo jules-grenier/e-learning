@@ -1,16 +1,22 @@
 <template>
-  <router-link :to="`/courses/${course.id}`" class="course-card" :class="type">
-    <div class="course-image">
-      <img :src="image" :alt="course.title" />
-      <div v-if="type === 'ongoing'" class="overlay">
-        <ph-play-circle :size="50" fill="regular" class="play-icon" />
+  <div class="course-card" :class="type">
+    <router-link :to="`/courses/${course.id}`">
+      <div class="course-image">
+        <img :src="image" :alt="course.title" />
+        <div v-if="type === 'ongoing'" class="overlay">
+          <ph-play-circle :size="50" fill="regular" class="play-icon" />
+        </div>
       </div>
+      <div class="course-detail">
+        <h4 class="course-title">{{ course.title }}</h4>
+        <p class="course-description">{{ course.description }}</p>
+      </div>
+    </router-link>
+    <div v-if="type === 'showcase'" class="card-actions">
+      <button v-if="!courseIsInCart" @click="addToCart">Ajouter au panier</button>
+      <button v-if="courseIsInCart" @click="removeFromCart">Enlever du panier</button>
     </div>
-    <div class="course-detail">
-      <h4 class="course-title">{{ course.title }}</h4>
-      <p class="course-description">{{ course.description }}</p>
-    </div>
-  </router-link>
+  </div>
 </template>
 
 <script lang="ts">
@@ -30,7 +36,23 @@ export default defineComponent({
     return {
       detailed: this.type === "ongoing" ? "ongoing" : "showcase",
       image: this.type === "ongoing" ? images.thumbnail : images.medium,
+      courseIsInCart: false,
     };
+  },
+  methods: {
+    addToCart() {
+      this.$store.dispatch("cart/add", this.course);
+      this.courseIsInCart = true;
+    },
+    removeFromCart() {
+      this.$store.dispatch("cart/remove", this.course);
+      this.courseIsInCart = false;
+    },
+  },
+  mounted() {
+    this.$nextTick(async () => {
+      this.courseIsInCart = await this.$store.dispatch("cart/isInCart", this.course);
+    });
   },
 });
 </script>
@@ -40,9 +62,13 @@ export default defineComponent({
   display: flex;
   flex-direction: row;
   max-width: 400px;
-  text-decoration: none;
   color: var(--color-black);
   background-color: var(--color-grey-2);
+
+  a {
+    text-decoration: none;
+    color: var(--color-black);
+  }
 
   .course-detail {
     flex: 1;

@@ -5,5 +5,6 @@ import Courses from "./Courses.vue";
 import MyCourses from "./MyCourses.vue";
 import CourseCreate from "./CourseCreate.vue";
 import Course from "./Course.vue";
+import Cart from "./Cart.vue";
 
-export { Home, Register, Login, Courses, MyCourses, CourseCreate, Course };
+export { Home, Register, Login, Courses, MyCourses, CourseCreate, Course, Cart };
