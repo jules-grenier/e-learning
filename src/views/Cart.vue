@@ -24,6 +24,8 @@
           </div>
         </div>
       </div>
+
+      <router-link to="/cart/checkout">Valider le panier</router-link>
     </div>
   </LayoutTopSpace>
 </template>
