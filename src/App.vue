@@ -34,7 +34,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #app {
   min-height: 100vh;
   display: flex;

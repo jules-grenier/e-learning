@@ -46,7 +46,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .cart-menu {
   position: relative;
   display: flex;
@@ -77,6 +77,7 @@ export default defineComponent({
     position: absolute;
     right: 0;
     top: 100%;
+    z-index: 100;
     min-width: max-content;
     width: max-content;
     min-height: 100px;

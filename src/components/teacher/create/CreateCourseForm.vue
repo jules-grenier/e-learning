@@ -94,7 +94,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 form {
   margin-top: 60px;
   width: 700px;

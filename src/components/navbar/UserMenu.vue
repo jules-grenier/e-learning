@@ -30,7 +30,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .user-menu {
   position: relative;
   display: flex;
@@ -40,6 +40,7 @@ export default defineComponent({
     position: absolute;
     right: 0;
     top: 100%;
+    z-index: 100;
     min-width: max-content;
     width: max-content;
     background-color: var(--color-grey);

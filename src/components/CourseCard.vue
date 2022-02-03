@@ -57,7 +57,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .course-card {
   display: flex;
   flex-direction: row;
@@ -66,6 +66,8 @@ export default defineComponent({
   background-color: var(--color-grey-2);
 
   a {
+    display: flex;
+    flex-direction: column;
     text-decoration: none;
     color: var(--color-black);
   }
@@ -85,6 +87,10 @@ export default defineComponent({
   }
 
   &.ongoing {
+    a {
+      flex-direction: row;
+    }
+
     .shop-info {
       display: none;
     }
