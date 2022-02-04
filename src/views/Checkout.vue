@@ -102,6 +102,10 @@ export default defineComponent({
       if (!this.elements) this.elements = elements;
     },
   },
+  mounted() {
+    const rawUser = localStorage.getItem("user");
+    if (!rawUser) this.$router.push("/login");
+  },
 });
 </script>
 
