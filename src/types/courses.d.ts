@@ -2,6 +2,7 @@ export interface Course {
   id: string;
   title: string;
   description: string;
+  price: number;
   author_name: string;
   author_id: string;
   created_at: string;

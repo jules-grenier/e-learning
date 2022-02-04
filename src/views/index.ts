@@ -7,5 +7,6 @@ import CourseCreate from "./CourseCreate.vue";
 import Course from "./Course.vue";
 import Cart from "./Cart.vue";
 import Checkout from "./Checkout.vue";
+import PaymentSuccess from "./PaymentSuccess.vue";
 
-export { Home, Register, Login, Courses, MyCourses, CourseCreate, Course, Cart, Checkout };
+export { Home, Register, Login, Courses, MyCourses, CourseCreate, Course, Cart, Checkout, PaymentSuccess };

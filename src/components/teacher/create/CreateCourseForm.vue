@@ -13,6 +13,10 @@
           <label for="description">Description de la formation</label>
           <textarea id="description" name="description" v-model="courseDescription" />
         </div>
+        <div class="form-control">
+          <label for="price">Prix de la formation</label>
+          <input type="number" id="price" name="price" v-model="coursePrice" />
+        </div>
       </div>
     </fieldset>
     <fieldset>
@@ -52,6 +56,7 @@ export default defineComponent({
       fileFields: [FileField],
       courseTitle: "",
       courseDescription: "",
+      coursePrice: 0,
     };
   },
   methods: {
@@ -61,6 +66,7 @@ export default defineComponent({
 
       formData.append("course_title", this.courseTitle);
       formData.append("course_description", this.courseDescription);
+      formData.append("course_price", String(this.coursePrice));
 
       this.fileFields.forEach((fileField, index) => {
         const fileId = `file-${index}`;
@@ -104,6 +110,10 @@ form {
     input,
     textarea {
       padding: 8px 6px;
+    }
+
+    input[id="price"] {
+      width: 100px;
     }
   }
 
