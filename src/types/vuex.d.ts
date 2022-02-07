@@ -137,6 +137,7 @@ export type CartGetters = {
 export type CartMutations = {
   setItem(state: CartState, payload: CartItem): void;
   deleteItem(state: CartState, payload: CartItem): void;
+  emptyList(state: CartState, payload: null): void;
   setError(state: CartState, payload: string): void;
 };
 
@@ -148,6 +149,7 @@ export interface CartActions {
   add(context: CartAugmentedActionContext, item: CartItem): void;
   remove(context: CartAugmentedActionContext, item: CartItem): void;
   isInCart(context: CartAugmentedActionContext, item: Course): boolean;
+  empty(context: CartAugmentedActionContext): void;
 }
 
 export type CartStore<S = CartState> = Omit<VuexStore<S>, "commit" | "getters" | "dispatch"> & {

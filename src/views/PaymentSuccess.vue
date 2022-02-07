@@ -8,11 +8,37 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { mapState } from "vuex";
+import axios from "axios";
 
 import { LayoutTopSpace } from "@/layouts";
+import { CartItem } from "@/types/cart";
 
 export default defineComponent({
   components: { LayoutTopSpace },
+  computed: {
+    ...mapState("auth", ["token"]),
+    ...mapState("cart", ["items"]),
+  },
+  watch: {
+    token: {
+      handler: function () {
+        this.validatePayment();
+      },
+      deep: true,
+    },
+  },
+  methods: {
+    async validatePayment() {
+      const courseIds = this.items.map((course: CartItem) => course.id);
+      await axios.post("http://localhost:8090/payments/validation", courseIds, {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      });
+      this.$store.dispatch("cart/empty");
+    },
+  },
 });
 </script>
 

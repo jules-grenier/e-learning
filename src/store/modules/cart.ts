@@ -35,6 +35,9 @@ const mutations: MutationTree<CartState> & CartMutations = {
       }
     });
   },
+  emptyList(state) {
+    state.items = [];
+  },
   setError(state, error) {
     state.error = error;
   },
@@ -59,6 +62,10 @@ const actions: ActionTree<CartState, unknown> & CartActions = {
   },
   isInCart(context, item) {
     return !!context.state.items.find((course: CartItem) => item.id === course.id);
+  },
+  empty(context) {
+    context.commit("emptyList", null);
+    localStorage.removeItem("cart");
   },
 };
 
