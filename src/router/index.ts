@@ -8,6 +8,7 @@ import {
   MyCourses,
   CourseCreate,
   Course,
+  CourseLearn,
   Cart,
   Checkout,
   PaymentSuccess,
@@ -39,6 +40,11 @@ const routes = [
     name: "Course",
     path: "/courses/:id",
     component: Course,
+  },
+  {
+    name: "CourseLearn",
+    path: "/course/learn/:id",
+    component: CourseLearn,
   },
   {
     name: "MyCourses",

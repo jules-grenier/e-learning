@@ -5,6 +5,7 @@ import Courses from "./Courses.vue";
 import MyCourses from "./MyCourses.vue";
 import CourseCreate from "./CourseCreate.vue";
 import Course from "./Course.vue";
+import CourseLearn from "./CourseLearn.vue";
 import Cart from "./Cart.vue";
 import Checkout from "./Checkout.vue";
 import PaymentSuccess from "./PaymentSuccess.vue";
@@ -18,6 +19,7 @@ export {
   MyCourses,
   CourseCreate,
   Course,
+  CourseLearn,
   Cart,
   Checkout,
   PaymentSuccess,
