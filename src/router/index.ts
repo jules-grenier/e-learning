@@ -11,6 +11,7 @@ import {
   Cart,
   Checkout,
   PaymentSuccess,
+  PageNotFound,
 } from "@/views";
 
 const routes = [
@@ -63,6 +64,11 @@ const routes = [
     name: "PaymentSuccess",
     path: "/payment/success",
     component: PaymentSuccess,
+  },
+  {
+    name: "PageNotFound",
+    path: "/:pathMatch(.*)",
+    component: PageNotFound,
   },
 ];
 
