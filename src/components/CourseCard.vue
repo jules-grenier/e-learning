@@ -12,9 +12,13 @@
         <p class="course-description">{{ course.description }}</p>
       </div>
     </router-link>
-    <div v-if="type === 'showcase'" class="card-actions">
-      <button v-if="!courseIsInCart" @click="addToCart">Ajouter au panier</button>
-      <button v-if="courseIsInCart" @click="removeFromCart">Enlever du panier</button>
+
+    <div v-if="type === 'showcase'" class="shop-info">
+      <div class="price">{{ course.price }}€</div>
+      <div v-if="type === 'showcase'" class="cart-actions">
+        <button v-if="!courseIsInCart" @click="addToCart" class="cart-btn btn-add">Ajouter au panier</button>
+        <button v-if="courseIsInCart" @click="removeFromCart" class="cart-btn btn-remove">Enlever du panier</button>
+      </div>
     </div>
   </div>
 </template>
@@ -82,17 +86,12 @@ export default defineComponent({
   }
 
   &:hover {
-    background-color: var(--color-blue-light);
     box-shadow: var(--shadow-hover);
   }
 
   &.ongoing {
     a {
       flex-direction: row;
-    }
-
-    .shop-info {
-      display: none;
     }
 
     .course-image {
@@ -118,6 +117,48 @@ export default defineComponent({
 
   &.showcase {
     flex-direction: column;
+
+    .shop-info {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0px 15px 15px 15px;
+    }
+
+    .price {
+      font-size: 20px;
+    }
+
+    .cart-btn {
+      padding: 8px 16px;
+      border: 1px solid transparent;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+
+      &.btn-add {
+        background-color: var(--color-blue-light);
+        border-color: var(--color-blue);
+        color: var(--color-blue);
+
+        &:hover {
+          background-color: var(--color-blue);
+          border-color: var(--color-blue);
+          color: var(--color-white);
+        }
+      }
+
+      &.btn-remove {
+        background-color: transparent;
+        border-color: var(--color-black);
+        color: var(--color-black);
+
+        &:hover {
+          background-color: var(--color-black);
+          color: var(--color-white);
+        }
+      }
+    }
   }
 }
 </style>
