@@ -1,6 +1,6 @@
 <template>
   <div class="course-card" :class="type">
-    <router-link :to="`/courses/${course.id}`">
+    <router-link :to="courseLink">
       <div class="course-image">
         <img :src="image" :alt="course.title" />
         <div v-if="type === 'ongoing'" class="overlay">
@@ -40,6 +40,7 @@ export default defineComponent({
     return {
       detailed: this.type === "ongoing" ? "ongoing" : "showcase",
       image: this.type === "ongoing" ? images.thumbnail : images.medium,
+      courseLink: this.type === "ongoing" ? `/course/learn/${this.course.id}` : `/course/overview/${this.course.id}`,
       courseIsInCart: false,
     };
   },

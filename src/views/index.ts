@@ -4,7 +4,7 @@ import Login from "./Login.vue";
 import Courses from "./Courses.vue";
 import MyCourses from "./MyCourses.vue";
 import CourseCreate from "./CourseCreate.vue";
-import Course from "./Course.vue";
+import CourseOverview from "./CourseOverview.vue";
 import CourseLearn from "./CourseLearn.vue";
 import Cart from "./Cart.vue";
 import Checkout from "./Checkout.vue";
@@ -18,7 +18,7 @@ export {
   Courses,
   MyCourses,
   CourseCreate,
-  Course,
+  CourseOverview,
   CourseLearn,
   Cart,
   Checkout,

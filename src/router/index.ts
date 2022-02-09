@@ -7,7 +7,7 @@ import {
   Courses,
   MyCourses,
   CourseCreate,
-  Course,
+  CourseOverview,
   CourseLearn,
   Cart,
   Checkout,
@@ -37,9 +37,9 @@ const routes = [
     component: Courses,
   },
   {
-    name: "Course",
-    path: "/courses/:id",
-    component: Course,
+    name: "CourseOverview",
+    path: "/course/overview/:id",
+    component: CourseOverview,
   },
   {
     name: "CourseLearn",
