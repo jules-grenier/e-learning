@@ -78,8 +78,8 @@ export default defineComponent({
     right: 0;
     top: 100%;
     z-index: 100;
-    min-width: max-content;
-    width: max-content;
+    min-width: 250px;
+    max-width: max-content;
     min-height: 100px;
     background-color: var(--color-grey);
     border-radius: var(--border-radius);
@@ -89,6 +89,10 @@ export default defineComponent({
     .message-empty {
       align-self: center;
       padding: 8px 10px;
+    }
+
+    .dropdown-links {
+      width: 100%;
     }
 
     .dropdown-link {
