@@ -14,6 +14,7 @@
               <span class="item-name">{{ item.title }}</span>
               <span class="item-author">{{ item.author_name }}</span>
             </div>
+            <div class="item-price">{{ item.price }}€</div>
           </router-link>
         </div>
         <div class="open-cart-link">
@@ -116,6 +117,7 @@ export default defineComponent({
         .item-details {
           display: flex;
           flex-direction: column;
+          flex: 1;
 
           .item-name {
             font-weight: bold;

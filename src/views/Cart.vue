@@ -14,18 +14,27 @@
           <img :src="image" alt="item image" class="item-image" />
 
           <div class="item-details">
-            <h3>{{ item.title }}</h3>
-            <p class="course-description">{{ item.description }}</p>
-            <span class="author-name">{{ item.author_name }}</span>
+            <div class="left-col">
+              <h3>{{ item.title }}</h3>
+              <p class="course-description">{{ item.description }}</p>
+              <span class="author-name">{{ item.author_name }}</span>
 
-            <div class="remove-from-cart">
-              <button @click="removeFromCart(item)" class="remove-from-cart-btn">Retirer du panier</button>
+              <div class="remove-from-cart">
+                <button @click="removeFromCart(item)" class="remove-from-cart-btn">Retirer du panier</button>
+              </div>
+            </div>
+            <div class="right-col">
+              <span class="item-price">{{ item.price }}€</span>
             </div>
           </div>
         </div>
       </div>
 
-      <router-link to="/cart/checkout" class="validate-cart-btn">Valider et payer</router-link>
+      <div v-if="cartLength" class="order-amount">
+        Montant total : <span class="amount-value">{{ orderAmount }}€</span>
+      </div>
+
+      <router-link v-if="cartLength" to="/cart/checkout" class="validate-cart-btn">Valider et payer</router-link>
     </div>
   </LayoutTopSpace>
 </template>
@@ -49,6 +58,9 @@ export default defineComponent({
     },
     cartLength() {
       return this.$store.getters["cart/length"];
+    },
+    orderAmount() {
+      return this.$store.getters["cart/list"].reduce((total: number, course: CartItem) => total + course.price, 0);
     },
   },
   methods: {
@@ -79,8 +91,25 @@ export default defineComponent({
 
     .item-details {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      flex: 1;
       padding: 10px;
+
+      .left-col {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+
+      .right-col {
+        display: flex;
+
+        .item-price {
+          margin-left: auto;
+          font-weight: bold;
+          font-size: 18px;
+        }
+      }
 
       .course-description {
         margin-top: 3px;
@@ -114,6 +143,15 @@ export default defineComponent({
   .item-image {
     max-width: 150px;
     border-radius: var(--border-radius);
+  }
+
+  .order-amount {
+    margin-bottom: 15px;
+
+    .amount-value {
+      font-weight: bold;
+      font-size: 18px;
+    }
   }
 
   .validate-cart-btn {
