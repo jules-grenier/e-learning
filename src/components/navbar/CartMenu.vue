@@ -4,21 +4,23 @@
       <ph-shopping-cart :size="24" fill="regular" class="icon" />
       <div v-if="cartLength" class="items-indicator"></div>
     </router-link>
-    <div class="dropdown-menu">
-      <div v-if="!cartLength" class="message-empty">Votre panier est vide</div>
-      <div v-if="cartLength" class="dropdown-links">
-        <div v-for="item in cartItems" :key="item.id" class="dropdown-link">
-          <router-link :to="`/courses/${item.id}`" class="link">
-            <img :src="image" alt="item image" class="item-image" />
-            <div class="item-details">
-              <span class="item-name">{{ item.title }}</span>
-              <span class="item-author">{{ item.author_name }}</span>
-            </div>
-            <div class="item-price">{{ item.price }}€</div>
-          </router-link>
-        </div>
-        <div class="open-cart-link">
-          <router-link to="/cart"> Ouvrir le panier </router-link>
+    <div class="dropdown-menu-wrapper">
+      <div class="dropdown-menu">
+        <div v-if="!cartLength" class="message-empty">Votre panier est vide</div>
+        <div v-if="cartLength" class="dropdown-links">
+          <div v-for="item in cartItems" :key="item.id" class="dropdown-link">
+            <router-link :to="`/courses/${item.id}`" class="link">
+              <img :src="image" alt="item image" class="item-image" />
+              <div class="item-details">
+                <span class="item-name">{{ item.title }}</span>
+                <span class="item-author">{{ item.author_name }}</span>
+              </div>
+              <div class="item-price">{{ item.price }}€</div>
+            </router-link>
+          </div>
+          <div class="open-cart-link">
+            <router-link to="/cart"> Ouvrir le panier </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -74,22 +76,29 @@ export default defineComponent({
     }
   }
 
-  .dropdown-menu {
+  .dropdown-menu-wrapper {
     position: absolute;
     right: 0;
     top: 100%;
     z-index: 100;
+    display: none;
+    padding-top: 10px;
+  }
+
+  .dropdown-menu {
+    display: flex;
     min-width: 250px;
     max-width: max-content;
     min-height: 100px;
     background-color: var(--color-grey);
     border-radius: var(--border-radius);
-    display: none;
     box-shadow: var(--shadow-hover);
 
     .message-empty {
       align-self: center;
       padding: 8px 10px;
+      width: 100%;
+      text-align: center;
     }
 
     .dropdown-links {
@@ -157,8 +166,8 @@ export default defineComponent({
       color: var(--color-blue);
     }
 
-    .dropdown-menu {
-      display: flex;
+    .dropdown-menu-wrapper {
+      display: block;
     }
   }
 }
