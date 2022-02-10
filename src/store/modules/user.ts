@@ -53,6 +53,7 @@ const actions: ActionTree<UserState, unknown> & UserActions = {
 };
 
 const userModule = {
+  namespaced: true,
   state,
   getters,
   mutations,

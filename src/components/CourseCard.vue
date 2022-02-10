@@ -68,7 +68,7 @@ export default defineComponent({
   flex-direction: row;
   max-width: 400px;
   color: var(--color-black);
-  background-color: var(--color-grey-2);
+  background-color: var(--color-white);
 
   a {
     display: flex;
@@ -140,7 +140,7 @@ export default defineComponent({
       &.btn-add {
         background-color: var(--color-blue-light);
         border-color: var(--color-blue);
-        color: var(--color-blue);
+        color: var(--color-black);
 
         &:hover {
           background-color: var(--color-blue);

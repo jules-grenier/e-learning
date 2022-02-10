@@ -40,6 +40,8 @@ declare module "@vue/runtime-core" {
     user: UserState;
   }
 
+  export type VuexState = State;
+
   // provide typings for `this.$store`
   interface ComponentCustomProperties {
     $store: VuexStore<State>;
