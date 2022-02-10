@@ -17,9 +17,9 @@
       <CoursesToStart :courses="userCoursesToStart" />
     </section>
 
-    <section v-if="userIsAuthenticated && userCourseSuggestions.length > 0">
+    <section v-if="userIsAuthenticated && userCoursesSuggestions.length > 0">
       <h2>Formations que vous pourriez aimer</h2>
-      <CoursesSuggestions :courses="userCourseSuggestions" />
+      <CoursesSuggestions :courses="userCoursesSuggestions" />
     </section>
   </LayoutDefault>
 </template>
@@ -40,7 +40,7 @@ import { mapState } from "vuex";
 type DataTypes = {
   userCoursesToStart: UserCourse[];
   userOngoingCourses: UserCourse[];
-  userCourseSuggestions: Course[];
+  userCoursesSuggestions: Course[];
   [key: string]: unknown;
 };
 
@@ -50,7 +50,7 @@ export default defineComponent({
     return {
       userCoursesToStart: [],
       userOngoingCourses: [],
-      userCourseSuggestions: [],
+      userCoursesSuggestions: [],
       showFindCourses: false,
     };
   },
@@ -84,11 +84,15 @@ export default defineComponent({
   methods: {
     loadCourses() {
       const userCourseIds = this.userCourses.map((course: UserCourse) => course.id);
-      this.userCoursesToStart = this.userCourses.filter((course: UserCourse) => {
+      const userCoursesToStart = this.userCourses.filter((course: UserCourse) => {
         return !course.ongoing && !course.finished;
       });
-      this.userOngoingCourses = this.userCourses.filter((course: UserCourse) => course.ongoing);
-      this.userCourseSuggestions = this.allCourses.filter((course: Course) => !userCourseIds.includes(course.id));
+      const userOngoingCourses = this.userCourses.filter((course: UserCourse) => course.ongoing);
+      const userCoursesSuggestions = this.allCourses.filter((course: Course) => !userCourseIds.includes(course.id));
+
+      this.userCoursesToStart = userCoursesToStart;
+      this.userOngoingCourses = userOngoingCourses;
+      this.userCoursesSuggestions = userCoursesSuggestions;
     },
   },
   async mounted() {

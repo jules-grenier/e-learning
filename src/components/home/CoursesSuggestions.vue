@@ -1,10 +1,12 @@
 <template>
   <div class="courses-suggestions">
-    <swiper :slides-per-view="slidesPerView" :space-between="60" navigation loop>
-      <swiper-slide v-for="course in suggestedCourses" :key="course.id">
+    <swiper v-if="courses.length > 1" :slides-per-view="slidesPerView" :space-between="60" navigation loop>
+      <swiper-slide v-for="course in courses" :key="course.id">
         <CourseCard type="showcase" :course="course" />
       </swiper-slide>
     </swiper>
+
+    <CourseCard v-if="courses.length === 1" type="showcase" :course="courses[0]" />
   </div>
 </template>
 
@@ -22,27 +24,16 @@ SwiperCore.use([Navigation]);
 
 export default defineComponent({
   components: { Swiper, SwiperSlide, CourseCard },
-  data() {
-    return {
-      suggestedCourses: [],
-    };
-  },
-  async mounted() {
-    await this.$store.dispatch("courses/fetchCourses");
-
-    this.$nextTick(() => {
-      this.suggestedCourses = this.$store.getters["courses/list"];
-    });
-  },
+  props: ["courses"],
   computed: {
     slidesPerView(): number {
       let nbSlides = 1;
 
-      if (this?.suggestedCourses.length > 0 && this?.suggestedCourses.length < 3) {
-        nbSlides = this?.suggestedCourses.length;
+      if (this.courses.length > 0 && this.courses.length < 3) {
+        nbSlides = this.courses.length;
       }
 
-      if (this?.suggestedCourses.length >= 3) {
+      if (this.courses.length >= 3) {
         nbSlides = 3;
       }
 
