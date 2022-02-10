@@ -12,5 +12,10 @@ export interface Course {
     description: string;
     type: string;
     location: string;
-  };
+  }[];
+}
+
+export interface UserCourse extends Course {
+  ongoing: boolean;
+  finished: boolean;
 }

@@ -1,7 +1,7 @@
 import { AuthState, CoursesState } from "vue";
 import { Store as VuexStore, ActionContext } from "vuex";
 import { User, UserLogin, UserRegistration } from "./user";
-import { Course } from "./courses";
+import { Course, UserCourse } from "./courses";
 import { CartItem } from "./cart";
 
 declare module "@vue/runtime-core" {
@@ -26,12 +26,18 @@ declare module "@vue/runtime-core" {
     error: string;
   }
 
+  export interface UserState {
+    courses: UserCourse[];
+    error: string;
+  }
+
   export type AuthCredentials = Omit<AuthState, "error">;
 
   interface State {
     auth: AuthState;
     courses: CoursesState;
     cart: CartState;
+    user: UserState;
   }
 
   // provide typings for `this.$store`
@@ -168,4 +174,42 @@ export type CartStore<S = CartState> = Omit<VuexStore<S>, "commit" | "getters" |
     payload: Parameters<CartActions[K]>[1],
     options?: DispatchOptions
   ): ReturnType<CartActions[K]>;
+};
+
+// User module typings
+
+export type UserGetters = {
+  courses(state: UserState): UserCourse[];
+  error(state: UserState): string;
+};
+
+export type UserMutations = {
+  setCourses(state: UserState, payload: UserCourse[]): void;
+  setError(state: UserState, payload: string): void;
+};
+
+type UserAugmentedActionContext = {
+  commit<K extends keyof UserMutations>(key: K, payload: Parameters<UserMutations[K]>[1]): ReturnType<UserMutations[K]>;
+} & Omit<ActionContext<State, unknown>, "commit">;
+
+export interface UserActions {
+  fetchCourses(context: UserAugmentedActionContext, token: string): Promise<UserCourse[]>;
+}
+
+export type UserStore<S = UserState> = Omit<VuexStore<S>, "commit" | "getters" | "dispatch"> & {
+  commit<K extends keyof UserMutations, P extends Parameters<UserMutations[K]>[1]>(
+    key: K,
+    payload: P,
+    options?: CommitOptions
+  ): ReturnType<UserMutations[K]>;
+} & {
+  getters: {
+    [K in keyof UserGetters]: ReturnType<UserGetters[K]>;
+  };
+} & {
+  dispatch<K extends keyof UserActions>(
+    key: K,
+    payload: Parameters<UserActions[K]>[1],
+    options?: DispatchOptions
+  ): ReturnType<UserActions[K]>;
 };
