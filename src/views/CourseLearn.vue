@@ -42,19 +42,14 @@ export default defineComponent({
     };
   },
   mounted() {
-    console.log("mounted");
     this.course = axios
       .get(`http://localhost:8090/courses/${this.$route.params.id}`)
       .then((res) => {
-        console.log("data", res.data);
         this.course = res.data;
       })
       .catch((error) => {
         console.error("Failed to get course.", error);
       });
-    this.$nextTick(async () => {
-      console.log("next tick");
-    });
   },
 });
 </script>
