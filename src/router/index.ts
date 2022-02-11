@@ -52,8 +52,8 @@ const routes = [
     component: MyCourses,
   },
   {
-    name: "CreateCourse",
-    path: "/teacher/create",
+    name: "CourseCreate",
+    path: "/teacher/create-course",
     component: CourseCreate,
   },
   {

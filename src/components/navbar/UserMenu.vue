@@ -38,7 +38,7 @@
 
         <div class="links-group">
           <div v-if="$store.getters['auth/user'].role === 'teacher'" class="dropdown-link">
-            <router-link :to="{ name: 'CreateCourse' }" class="link">Créer une formation</router-link>
+            <router-link :to="{ name: 'CourseCreate' }" class="link">Créer une formation</router-link>
           </div>
         </div>
 
