@@ -5,13 +5,7 @@ form {
   gap: 20px;
 
   fieldset {
-    padding: 15px;
     border: none;
-    border-left-width: 6px;
-    border-left-style: solid;
-    border-left-color: var(--color-blue);
-    background-color: var(--color-grey-2);
-    border-radius: 0px var(--border-radius) var(--border-radius) 0px;
   }
 
   .legend {

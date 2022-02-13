@@ -1,16 +1,17 @@
 <template>
-  <span class="file-title">Fichier {{ id + 1 }}</span>
+  <span class="file-title">{{ id + 1 }}. {{ fileName || "Fichier sans nom" }}</span>
 
-  <div class="file-control">
-    <input type="file" :id="`title-${id}`" :name="`title-${id}`" :ref="file" @change="onChange" />
-  </div>
   <div class="form-control">
-    <label :for="`description-file-${id}`">Description du fichier</label>
-    <textarea type="text" :id="`description-file-${id}`" :name="`description-file-${id}`" v-model="description" />
+    <label :for="`file-name-${id}`">Nom du fichier</label>
+    <input type="text" :id="`file-name-${id}`" :name="`file-name-${id}`" v-model="fileName" @change="onNameChange" />
+  </div>
+  <div class="file-control">
+    <input type="file" :id="`title-${id}`" :name="`title-${id}`" :ref="file" @change="onFileChange" />
   </div>
 
-  <button type="button" @click="() => remove(id)" class="remove-btn">
-    <ph-trash :size="24" fill="regular" class="trash-icon" />
+  <button type="button" @click="() => remove(id)" class="remove-file-btn">
+    <ph-trash :size="20" weight="light" class="btn-icon" />
+    <span>Supprimer le fichier</span>
   </button>
 </template>
 
@@ -27,12 +28,15 @@ export default defineComponent({
   data() {
     return {
       file: undefined as File | undefined,
-      description: "",
+      fileName: "",
       type: "video",
     };
   },
   methods: {
-    onChange(e: Event) {
+    onNameChange(e: Event) {
+      this.fileName = (e.target as HTMLInputElement).value;
+    },
+    onFileChange(e: Event) {
       this.file = (e.target as HTMLInputElement).files?.[0];
     },
   },
@@ -47,21 +51,24 @@ export default defineComponent({
 }
 
 .file-control {
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
-.remove-btn {
+.remove-file-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
   background-color: transparent;
-  color: var(--color-red);
+  color: var(--color-black);
   border-radius: var(--border-radius);
-  padding: 2px;
-  margin-top: 10px;
   margin-left: auto;
+  padding: 3px 6px;
   cursor: pointer;
+
+  .btn-icon {
+    margin-right: 5px;
+  }
 
   &:hover {
     background-color: var(--color-red);

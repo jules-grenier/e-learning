@@ -19,10 +19,25 @@
 
         <div class="course-content">
           <h2>Contenu de la formation</h2>
-          <div v-if="course.content" class="content-length">{{ course.content.length }} sessions</div>
-          <div class="content-items">
-            <div class="content-item" v-for="(file, index) in course.content" :key="file.id">
-              <p>{{ index + 1 }}. {{ file.description }}</p>
+          <div v-if="course.content" class="content-length">{{ sessionsCount }} sessions</div>
+
+          <div class="course-sections">
+            <div
+              v-for="(sessions, section, sectionIndex) in course.content"
+              :key="`section-${sectionIndex}`"
+              class="section"
+            >
+              <div class="section-name">{{ sectionIndex + 1 }}. {{ section }}</div>
+
+              <div class="section-items">
+                <div
+                  v-for="(session, sessionIndex) in sessions"
+                  :key="`session-${sectionIndex}-${sessionIndex}`"
+                  class="session"
+                >
+                  {{ sessionIndex + 1 }}. {{ session.name }}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -36,12 +51,14 @@ import { defineComponent } from "vue";
 import axios from "axios";
 
 import { LayoutTopSpace } from "@/layouts";
+import { Course } from "@/types/courses";
 
 export default defineComponent({
   components: { LayoutTopSpace },
   data() {
     return {
       course: {},
+      sessionsCount: 0,
       courseIsInCart: false,
       image: "https://via.placeholder.com/350x200",
     };
@@ -60,6 +77,13 @@ export default defineComponent({
     this.$nextTick(async () => {
       axios.get(`http://localhost:8090/courses/${this.$route.params.id}`).then((res) => {
         this.course = res.data;
+        let sessionsCount = 0;
+
+        Object.values(res.data.content as Course).forEach((sessions) => {
+          sessions.forEach(() => (sessionsCount += 1));
+        });
+
+        this.sessionsCount = sessionsCount;
       });
       this.courseIsInCart = await this.$store.dispatch("cart/isInCart", this.course);
     });
@@ -75,6 +99,7 @@ export default defineComponent({
 }
 
 .shop-details {
+  height: max-content;
   border: 1px solid var(--color-grey-2);
   border-radius: var(--border-radius);
   background-color: var(--color-white);
@@ -145,9 +170,44 @@ export default defineComponent({
 
   .course-content {
     margin-top: 40px;
+    width: 600px;
 
     .content-length {
       margin-top: 20px;
+      margin-bottom: 15px;
+    }
+
+    .course-sections {
+      background-color: var(--color-white);
+      border: 1px solid var(--color-grey-2);
+      border-radius: var(--border-radius);
+
+      .section {
+        padding-top: -1px;
+
+        &:first-child {
+          .section-name {
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+          }
+        }
+
+        .section-name {
+          padding: 10px;
+          background-color: var(--color-blue-light);
+          font-weight: bold;
+        }
+
+        .section-items {
+          padding: 30px 25px;
+
+          .session {
+            & + .session {
+              margin-top: 10px;
+            }
+          }
+        }
+      }
     }
 
     .content-items {

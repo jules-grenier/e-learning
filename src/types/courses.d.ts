@@ -1,3 +1,10 @@
+export interface CourseFile {
+  id: string;
+  name: string;
+  type: string;
+  location: string;
+}
+
 export interface Course {
   id: string;
   title: string;
@@ -8,10 +15,7 @@ export interface Course {
   created_at: string;
   updated_at: string;
   content: {
-    id: string;
-    description: string;
-    type: string;
-    location: string;
+    [key: string]: CourseFile[];
   }[];
 }
 

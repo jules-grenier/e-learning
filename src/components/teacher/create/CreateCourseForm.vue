@@ -1,21 +1,24 @@
 <template>
-  <form @submit.prevent="onSubmit">
+  <form @submit.prevent="onSubmit" autocomplete="off">
     <fieldset>
       <span class="legend">
         <legend>Informations générales</legend>
       </span>
-      <div class="form-group column">
-        <div class="form-control">
-          <label for="title">Nom de la formation</label>
-          <input type="text" id="title" name="title" v-model="courseTitle" />
-        </div>
-        <div class="form-control">
-          <label for="description">Description de la formation</label>
-          <textarea id="description" name="description" v-model="courseDescription" />
-        </div>
-        <div class="form-control">
-          <label for="price">Prix de la formation</label>
-          <input type="number" id="price" name="price" v-model="coursePrice" />
+
+      <div class="fieldset-content">
+        <div class="form-group column">
+          <div class="form-control">
+            <label for="title">Nom de la formation</label>
+            <input type="text" id="title" name="title" v-model="courseTitle" />
+          </div>
+          <div class="form-control">
+            <label for="description">Description de la formation</label>
+            <textarea id="description" name="description" v-model="courseDescription" />
+          </div>
+          <div class="form-control">
+            <label for="price">Prix de la formation</label>
+            <input type="number" id="price" name="price" v-model="coursePrice" />
+          </div>
         </div>
       </div>
     </fieldset>
@@ -24,18 +27,26 @@
         <legend>Contenu</legend>
       </span>
 
-      <p class="content-note">Votre formation ne doit pas excéder 15 vidéos</p>
+      <div class="fieldset-content">
+        <p class="content-note">Votre formation ne peut pas excéder 15 vidéos</p>
 
-      <div class="files-list">
-        <div v-for="(fileField, index) in fileFields" :key="index" class="file-field">
-          <FileField :ref="`file-${index}`" :id="index" :remove="removeFileField" />
+        <div class="course-sections">
+          <course-create-section
+            v-for="(courseSection, index) in courseSections"
+            :key="`section-${index}`"
+            :id="index"
+            :remove="removeSection"
+            :ref="`section-${index}`"
+            class="course-section"
+          >
+          </course-create-section>
         </div>
-      </div>
 
-      <button type="button" @click="addFileField" class="add-btn">
-        <ph-plus :size="20" fill="regular" class="add-icon" />
-        <span>Ajouter un nouveau fichier</span>
-      </button>
+        <button type="button" @click="addSection" class="add-section-btn">
+          <ph-plus :size="20" weight="regular" class="btn-icon" />
+          <span>Ajouter une section</span>
+        </button>
+      </div>
     </fieldset>
 
     <button type="submit" class="submit-btn">Valider et créer la formation</button>
@@ -47,13 +58,14 @@ import { defineComponent } from "vue";
 import { PhPlus } from "phosphor-vue";
 import axios from "axios";
 
+import CourseCreateSection from "./CourseCreateSection.vue";
 import FileField from "./FileField.vue";
 
 export default defineComponent({
-  components: { FileField, PhPlus },
+  components: { CourseCreateSection, PhPlus },
   data() {
     return {
-      fileFields: [FileField],
+      courseSections: [CourseCreateSection],
       courseTitle: "",
       courseDescription: "",
       coursePrice: 0,
@@ -61,40 +73,51 @@ export default defineComponent({
   },
   methods: {
     onSubmit(): void {
-      const formData = new FormData();
-      const contentDetails: { description: string; type: string }[] = [];
+      type CourseFile = {
+        section: string;
+        name: string;
+        type: string;
+      };
 
+      const formData = new FormData();
+      const contentDetails: CourseFile[] = [];
       formData.append("course_title", this.courseTitle);
       formData.append("course_description", this.courseDescription);
       formData.append("course_price", String(this.coursePrice));
 
-      this.fileFields.forEach((fileField, index) => {
-        const fileId = `file-${index}`;
-        const refFileField = (this.$refs[fileId] as typeof FileField)[0];
-        const { description, file, type } = refFileField;
+      this.courseSections.forEach((courseSection, sectionIndex) => {
+        const sectionId = `section-${sectionIndex}`;
+        const refSection = (this.$refs[sectionId] as typeof CourseCreateSection)[0];
+        const { sectionName } = refSection;
 
-        contentDetails.push({ description, type });
-        formData.append("content", file);
+        Object.values(refSection.$refs).forEach((refFileField) => {
+          const { fileName, file, type } = (refFileField as typeof FileField)[0];
+
+          formData.append("content", file);
+          contentDetails.push({ section: sectionName, name: fileName, type });
+        });
       });
 
       formData.append("content_details", JSON.stringify(contentDetails));
 
       try {
-        axios.post("http://localhost:8090/courses/create", formData, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters["auth/token"]}`,
-            "Content-Type": "multipart/form-data; boundary='&--'",
-          },
-        });
+        axios
+          .post("http://localhost:8090/courses/create", formData, {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters["auth/token"]}`,
+              "Content-Type": "multipart/form-data; boundary='&--'",
+            },
+          })
+          .then(() => this.$router.push("/"));
       } catch (error) {
         console.error("Failed to upload course.", error);
       }
     },
-    addFileField(): void {
-      this.fileFields.push(FileField);
+    addSection(): void {
+      this.courseSections.push(CourseCreateSection);
     },
-    removeFileField(index: number): void {
-      this.fileFields.splice(index, 1);
+    removeSection(index: number): void {
+      this.courseSections.splice(index, 1);
     },
   },
 });
@@ -129,39 +152,50 @@ form {
   margin-bottom: 30px;
 }
 
-.files-list {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  margin: -5px;
+.fieldset-content {
+  padding: 15px;
+  position: relative;
+  background-color: var(--color-white);
+  border-radius: var(--border-radius);
 
-  .file-field {
-    border-radius: var(--border-radius);
-    padding: 5px;
-
-    &:hover {
-      background-color: var(--color-blue-light);
-    }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 6px;
+    height: 100%;
+    background-color: var(--color-blue);
+    border-radius: 5px;
   }
 }
 
-.add-btn {
-  display: inline-flex;
-  flex-direction: row;
+.course-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.add-section-btn {
+  display: flex;
   align-items: center;
-  border: 1px solid var(--color-black);
-  padding: 8px 16px;
-  margin-top: 30px;
+  justify-content: center;
+  border: none;
+  background-color: transparent;
+  color: var(--color-black);
   border-radius: var(--border-radius);
+  margin-top: 40px;
+  padding: 5px 10px;
+  font-size: 14px;
   cursor: pointer;
 
-  .add-icon {
+  .btn-icon {
     margin-right: 5px;
   }
 
   &:hover {
-    border-color: var(--color-blue);
-    background-color: var(--color-blue-light);
+    background-color: var(--color-blue);
+    color: var(--color-grey);
   }
 }
 </style>
