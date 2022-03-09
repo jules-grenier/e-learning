@@ -21,9 +21,9 @@ export default defineComponent({
   data() {
     return {
       slides: [
-        { id: 1, image: "https://via.placeholder.com/1440x400", alt: "slide 1" },
-        { id: 2, image: "https://via.placeholder.com/1440x400", alt: "slide 2" },
-        { id: 3, image: "https://via.placeholder.com/1440x400", alt: "slide 3" },
+        { id: 1, image: "https://placekitten.com/1440/400", alt: "slide 1" },
+        { id: 2, image: "https://placekitten.com/1440/400", alt: "slide 2" },
+        { id: 3, image: "https://placekitten.com/1440/400", alt: "slide 3" },
       ],
     };
   },

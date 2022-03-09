@@ -60,7 +60,7 @@ export default defineComponent({
       course: {},
       sessionsCount: 0,
       courseIsInCart: false,
-      image: "https://via.placeholder.com/350x200",
+      image: "https://placekitten.com/350/200",
     };
   },
   methods: {

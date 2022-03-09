@@ -41,8 +41,8 @@ export default defineComponent({
   components: { Card },
   data() {
     const images = {
-      small: "https://via.placeholder.com/142x142",
-      medium: "https://via.placeholder.com/400x200",
+      small: "https://placekitten.com/142/142",
+      medium: "https://placekitten.com/400/200",
     };
 
     return {

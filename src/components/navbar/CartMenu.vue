@@ -35,7 +35,7 @@ export default defineComponent({
   components: { PhShoppingCart },
   data() {
     return {
-      image: "https://via.placeholder.com/50x50",
+      image: "https://placekitten.com/50/50",
     };
   },
   computed: {

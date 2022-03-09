@@ -49,7 +49,7 @@ export default defineComponent({
   components: { LayoutTopSpace },
   data() {
     return {
-      image: "https://via.placeholder.com/150x150",
+      image: "https://placekitten.com/150/150",
     };
   },
   computed: {
