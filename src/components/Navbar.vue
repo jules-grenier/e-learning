@@ -22,7 +22,7 @@
           </label>
         </div>
         <div class="nav-links">
-          <router-link to="/my-courses" class="nav-link">Mes formations</router-link>
+          <router-link to="/my-courses" class="nav-link">Mon apprentissage</router-link>
 
           <router-link to="/favorites" class="nav-link">
             <ph-heart :size="24" fill="regular" class="icon" />
