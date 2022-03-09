@@ -3,7 +3,7 @@
     <div class="ongoing-courses-list">
       <swiper :slides-per-view="slidesPerView" :space-between="60" navigation loop>
         <swiper-slide v-for="course in courses" :key="course.id">
-          <CourseCard type="ongoing" :course="course" />
+          <course-owned type="ongoing" :course="course" />
         </swiper-slide>
       </swiper>
     </div>
@@ -17,12 +17,12 @@ import SwiperCore, { Navigation } from "swiper/core";
 import "swiper/swiper.scss";
 import "swiper/components/navigation/navigation.scss";
 
-import CourseCard from "@/components/CourseCard.vue";
+import CourseOwned from "../shared/Course/CourseOwned.vue";
 
 SwiperCore.use([Navigation]);
 
 export default defineComponent({
-  components: { Swiper, SwiperSlide, CourseCard },
+  components: { Swiper, SwiperSlide, CourseOwned },
   props: ["courses"],
   computed: {
     slidesPerView(): number {

@@ -1,8 +1,8 @@
 <template>
   <div class="courses-to-start">
-    <swiper :slides-per-view="slidesPerView" :space-between="60" navigation loop>
+    <swiper :slides-per-view="slidesPerView" :space-between="60" navigation>
       <swiper-slide v-for="course in courses" :key="course.id">
-        <CourseCard type="ongoing" :course="course" />
+        <course-owned size="small" :course="course" :showProgress="false" />
       </swiper-slide>
     </swiper>
   </div>
@@ -15,13 +15,13 @@ import SwiperCore, { Navigation } from "swiper/core";
 import "swiper/swiper.scss";
 import "swiper/components/navigation/navigation.scss";
 
-import CourseCard from "@/components/CourseCard.vue";
+import CourseOwned from "../shared/Course/CourseOwned.vue";
 
 SwiperCore.use([Navigation]);
 
 export default defineComponent({
   props: ["courses"],
-  components: { Swiper, SwiperSlide, CourseCard },
+  components: { Swiper, SwiperSlide, CourseOwned },
   computed: {
     slidesPerView(): number {
       let nbSlides = 1;

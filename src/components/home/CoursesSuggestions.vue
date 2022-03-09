@@ -2,11 +2,11 @@
   <div class="courses-suggestions">
     <swiper v-if="courses.length > 1" :slides-per-view="slidesPerView" :space-between="60" navigation loop>
       <swiper-slide v-for="course in courses" :key="course.id">
-        <CourseCard type="showcase" :course="course" />
+        <course-showcase type="showcase" :course="course" />
       </swiper-slide>
     </swiper>
 
-    <CourseCard v-if="courses.length === 1" type="showcase" :course="courses[0]" />
+    <course-showcase v-if="courses.length === 1" type="showcase" :course="courses[0]" />
   </div>
 </template>
 
@@ -18,12 +18,12 @@ import SwiperCore, { Navigation } from "swiper/core";
 import "swiper/swiper.scss";
 import "swiper/components/navigation/navigation.scss";
 
-import CourseCard from "@/components/CourseCard.vue";
+import CourseShowcase from "@/components/shared/Course/CourseShowcase.vue";
 
 SwiperCore.use([Navigation]);
 
 export default defineComponent({
-  components: { Swiper, SwiperSlide, CourseCard },
+  components: { Swiper, SwiperSlide, CourseShowcase },
   props: ["courses"],
   computed: {
     slidesPerView(): number {
