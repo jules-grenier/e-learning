@@ -87,16 +87,16 @@ export default defineComponent({
 
   .dropdown-menu {
     display: flex;
-    min-width: 250px;
+    min-width: 270px;
     max-width: max-content;
     min-height: 100px;
+    padding: 10px;
     background-color: var(--color-grey);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-hover);
 
     .message-empty {
       align-self: center;
-      padding: 8px 10px;
       width: 100%;
       text-align: center;
     }
@@ -137,10 +137,14 @@ export default defineComponent({
       &:hover {
         background-color: var(--color-blue-light);
       }
+
+      & + .dropdown-link {
+        margin-top: 10px;
+      }
     }
 
     .open-cart-link {
-      padding: 8px 10px;
+      margin-top: 15px;
 
       a {
         cursor: pointer;
